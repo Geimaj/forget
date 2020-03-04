@@ -18,6 +18,9 @@ app.get("/secret/:id", (req, res) => {
     if (secrets[id].timeout === 0) {
       delete secrets[id];
     }
+  } else {
+    res.status(404);
+    res.send({ error: "not found" });
   }
 });
 
