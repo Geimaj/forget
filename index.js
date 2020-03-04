@@ -10,7 +10,6 @@ app.use(bodyparser.json());
 const secrets = {};
 
 app.get("/secret/:id", (req, res) => {
-  res.send("finding secret: " + req.params.id);
   const id = req.params.id;
 
   if (secrets[id]) {
