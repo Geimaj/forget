@@ -26,7 +26,6 @@ app.get("/secret/:id", (req, res) => {
 
 app.post("/secret", (req, res) => {
   const { secret, option } = req.body;
-
   //generate unique id
   let id;
   do {
