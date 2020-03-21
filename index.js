@@ -1,11 +1,10 @@
 const express = require("express");
 const PORT = process.env.PORT || 40404;
 const cors = require("cors");
-const bodyparser = require("body-parser");
 
 const app = express();
 app.use(cors());
-app.use(bodyparser.json());
+app.use(express.json());
 
 const secrets = {};
 
