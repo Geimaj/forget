@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const express = require("express");
 const PORT = process.env.PORT || 40404;
 const cors = require("cors");
@@ -29,9 +30,7 @@ app.post("/secret", (req, res) => {
   //generate unique id
   let id;
   do {
-    id = Math.random()
-      .toString(36)
-      .substring(7);
+    id = generateId()
   } while (secrets[id]);
 
   let timeout = 0;
@@ -52,6 +51,12 @@ app.post("/secret", (req, res) => {
     })
   );
 });
+
+// Generate a cryptographically-secure random ID in 'URL and filename safe' Base 64
+// https://tools.ietf.org/html/rfc4648#section-5
+function generateId() {
+    return crypto.randomBytes(6).toString('base64').replace(/\+/g, '-').replace(/\//g, '_')
+}
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
