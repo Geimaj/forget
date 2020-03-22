@@ -14,10 +14,10 @@ app.get("/secret/:id", (req, res) => {
   console.log(secrets);
   if (secrets[id]) {
     //check if we should delete
+    res.send(secrets[id]);
     if (secrets[id].expiry == undefined || secrets[id].expiry < Date.now()) {
       delete secrets[id];
     }
-    res.send(secrets[id]);
   } else {
     res.status(404);
     res.send({ error: "not found" });
