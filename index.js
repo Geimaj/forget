@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 const express = require("express");
 const PORT = process.env.PORT || 40404;
 const cors = require("cors");
@@ -11,16 +11,13 @@ const secrets = {};
 
 app.get("/secret/:id", (req, res) => {
   const id = req.params.id;
-
+  console.log(secrets);
   if (secrets[id]) {
     //check if we should delete
-    if (secrets[id].expiry < Date.now()) {
+    if (secrets[id].expiry == undefined || secrets[id].expiry < Date.now()) {
       delete secrets[id];
-      res.status(404);
-      res.send({ error: "not found" });
-    } else {
-      res.send(secrets[id]);
     }
+    res.send(secrets[id]);
   } else {
     res.status(404);
     res.send({ error: "not found" });
@@ -32,10 +29,9 @@ app.post("/secret", (req, res) => {
   //generate unique id
   let id;
   do {
-    id = generateId()
+    id = generateId();
   } while (secrets[id]);
 
-  }
   //write secret to memory
   secrets[id] = { secret, expiry };
 
@@ -50,7 +46,11 @@ app.post("/secret", (req, res) => {
 // Generate a cryptographically-secure random ID in 'URL and filename safe' Base 64
 // https://tools.ietf.org/html/rfc4648#section-5
 function generateId() {
-    return crypto.randomBytes(6).toString('base64').replace(/\+/g, '-').replace(/\//g, '_')
+  return crypto
+    .randomBytes(6)
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
 }
 
 app.listen(PORT, () => {
